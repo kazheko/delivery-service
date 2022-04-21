@@ -13,6 +13,6 @@
         public string Id { get; init; }
         public string Number { get; init; }
         public string CourierId { get; init; }
-        public IEnumerable<(string,int,string)> Orders { get; init; }
+        public IEnumerable<(string OrderId, int SeqNum, string ClientId)> Orders { get; init; }
     }
 }
