@@ -2,13 +2,13 @@
 using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
 using GoodsDelivery.DeliveryWebApi.Core.Domain;
 
-namespace GoodsDelivery.DeliveryWebApi.Core.Application
+namespace GoodsDelivery.DeliveryWebApi.Core.Application.Handlers
 {
-    public class DeliveryHandler
+    public class DeliveryCommandHandler
     {
         IDeliveryRepository repository;
 
-        public DeliveryHandler(IDeliveryRepository repository)
+        public DeliveryCommandHandler(IDeliveryRepository repository)
         {
             this.repository = repository;
         }
@@ -18,7 +18,7 @@ namespace GoodsDelivery.DeliveryWebApi.Core.Application
             var orders = cmd.Orders
                 .Select(x => new Order(x.OrderId, x.SeqNum, x.ClientId, OrderStatus.Shipped));
 
-            var delivery = new Delivery(default(string), cmd.Number, cmd.CourierId, orders);
+            var delivery = new Delivery(default, cmd.Number, cmd.CourierId, orders);
 
             await repository.Create(delivery);
 
