@@ -1,8 +1,8 @@
-﻿namespace GoodsDelivery.DeliveryWebApi.Core.Contracts.Commands
+﻿namespace GoodsDelivery.DeliveryWebApi.Core.Application.CommandHandlers
 {
     public record CreateDeliveryCommand
     {
-        public CreateDeliveryCommand(string id, string number, string courierId, 
+        public CreateDeliveryCommand(string id, string number, string courierId,
             IEnumerable<DeliverOrder> orders)
         {
             Id = id;

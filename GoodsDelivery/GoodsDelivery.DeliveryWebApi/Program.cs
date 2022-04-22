@@ -1,6 +1,6 @@
+using GoodsDelivery.DeliveryWebApi.Core.Application.CommandHandlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Handlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Queries;
-using GoodsDelivery.DeliveryWebApi.Core.Contracts.Commands;
 using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
 using GoodsDelivery.DeliveryWebApi.Infrastructure.Configurations;
 using GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Mapping;
