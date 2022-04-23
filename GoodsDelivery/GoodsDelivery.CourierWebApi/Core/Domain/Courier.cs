@@ -2,6 +2,12 @@
 {
     public class Courier
     {
+        public Courier(FullName name, Phone phoneNumber, string[] zones, string companyName, bool isActive)
+            : this(null, name, phoneNumber, zones, companyName, isActive)
+        {
+
+        }
+
         public Courier(string id, FullName name, Phone phoneNumber, string[] zones, string companyName, bool isActive)
         {
             Id = id;
