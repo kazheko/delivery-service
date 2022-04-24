@@ -2,11 +2,14 @@ using GoodsDelivery.CourierWebApi.Core.Application.Commands;
 using GoodsDelivery.CourierWebApi.Core.Application.Queries;
 using GoodsDelivery.CourierWebApi.Core.Contracts;
 using GoodsDelivery.CourierWebApi.Infrastructure.Persistence;
+using GoodsDelivery.DeliveryWebApi.Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<CourierCommandHandler>();
 builder.Services.AddScoped<CourierQueryService>();
+
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("CourierDatabase"));
 
 var app = builder.Build();
 
