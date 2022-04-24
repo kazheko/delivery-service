@@ -1,16 +1,24 @@
 using GoodsDelivery.CourierWebApi.Core.Application.Commands;
+using GoodsDelivery.CourierWebApi.Core.Application.Queries;
+using GoodsDelivery.CourierWebApi.Core.Contracts;
+using GoodsDelivery.CourierWebApi.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<CourierCommandHandler>();
+builder.Services.AddScoped<CourierQueryService>();
 
 var app = builder.Build();
 
-app.MapPost("/couriers", (CreateCourierCommand cmd, CourierCommandHandler handler) =>
+app.MapPost("/couriers", async (CreateCourierCommand cmd, CourierCommandHandler handler) =>
 {
-    var id = handler.Handle(cmd);
+    var id = await handler.Handle(cmd);
     return Results.Created($"/couriers/{id}", null);
 });
-//app.MapGet("/", () => "Hello World!");
+
+app.MapGet("/couriers", async (CourierQueryService service) => await service.GetAllCouriers());
+
+app.MapGet("/couriers/{id}", async (string id, CourierQueryService service) => await service.GetCourierDetails(id));
+
 
 app.Run();
