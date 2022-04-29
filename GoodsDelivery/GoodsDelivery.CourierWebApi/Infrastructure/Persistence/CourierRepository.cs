@@ -25,16 +25,16 @@ namespace GoodsDelivery.CourierWebApi.Infrastructure.Persistence
             await _courierCollection.InsertOneAsync(aggregate);
         }
 
-        public async Task<IEnumerable<Courier>> Read(string id)
+        public async Task<IEnumerable<Courier>> Read(Expression<Func<Courier, bool>> filter)
         {
             return await _courierCollection
-                .Find(x=>x.Id == id)
+                .Find(filter)
                 .ToListAsync();
         }
 
-        public async Task Delete(string id)
+        public async Task Delete(Expression<Func<Courier, bool>> filter)
         {
-            await _courierCollection.DeleteOneAsync(x => x.Id == id);
+            await _courierCollection.DeleteManyAsync(filter);
         }
     }
 }

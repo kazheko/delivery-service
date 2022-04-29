@@ -27,5 +27,10 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
 
             return aggregate.Id;
         }
+
+        public async Task Handle(DeleteCourierCommand cmd)
+        {
+            await repository.Delete(x=>x.Id == cmd.Id);
+        }
     }
 }

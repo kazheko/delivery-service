@@ -26,5 +26,11 @@ app.MapGet("/couriers", async (CourierQueryService service) => await service.Get
 
 app.MapGet("/couriers/{id}", async (string id, CourierQueryService service) => await service.GetCourierDetails(id));
 
+app.MapDelete("/couriers/{id}", async (string id, CourierCommandHandler handler) =>
+{
+    var cmd = new DeleteCourierCommand(id);
+    await handler.Handle(cmd);
+    return Results.NoContent();
+});
 
 app.Run();
