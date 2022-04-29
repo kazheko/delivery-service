@@ -36,5 +36,10 @@ namespace GoodsDelivery.CourierWebApi.Infrastructure.Persistence
         {
             await _courierCollection.DeleteManyAsync(filter);
         }
+
+        public async Task Update(Expression<Func<Courier, bool>> filter, Courier courier)
+        {
+            await _courierCollection.ReplaceOneAsync(filter, courier);
+        }
     }
 }

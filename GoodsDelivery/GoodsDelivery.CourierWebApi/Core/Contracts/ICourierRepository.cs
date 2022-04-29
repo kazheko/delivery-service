@@ -8,5 +8,6 @@ namespace GoodsDelivery.CourierWebApi.Core.Contracts
         Task Create(Courier aggregate);
         Task<IEnumerable<Courier>> Read(Expression<Func<Courier, bool>> filter);
         Task Delete(Expression<Func<Courier, bool>> filter);
+        Task Update(Expression<Func<Courier, bool>> filter, Courier courier);
     }
 }

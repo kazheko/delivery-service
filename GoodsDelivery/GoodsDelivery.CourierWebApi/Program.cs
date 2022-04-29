@@ -33,4 +33,16 @@ app.MapDelete("/couriers/{id}", async (string id, CourierCommandHandler handler)
     return Results.NoContent();
 });
 
+app.MapPut("/couriers/{id}", async (string id, UpdateCourierCommand cmd, CourierCommandHandler handler) =>
+{
+    if (id != cmd.Id)
+    {
+        return Results.BadRequest();
+    }
+
+    await handler.Handle(cmd);
+
+    return Results.NoContent();
+});
+
 app.Run();

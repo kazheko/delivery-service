@@ -30,7 +30,29 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
 
         public async Task Handle(DeleteCourierCommand cmd)
         {
-            await repository.Delete(x=>x.Id == cmd.Id);
+            await repository.Delete(x => x.Id == cmd.Id);
+        }
+
+        public async Task Handle(UpdateCourierCommand cmd)
+        {
+            var aggregate = (await repository.Read(x => x.Id == cmd.Id)).SingleOrDefault();
+
+            if (aggregate == null)
+            {
+                throw new ArgumentException("Courier does not exist");
+            }
+
+            aggregate = new Courier
+            (
+                cmd.Id,
+                new FullName(cmd.FirstName, cmd.LastName),
+                new Phone(cmd.PhoneNumber),
+                cmd.Zones,
+                cmd.CompanyName,
+                cmd.IsActive
+            );
+
+            await repository.Update(x => x.Id == cmd.Id, aggregate);
         }
     }
 }
