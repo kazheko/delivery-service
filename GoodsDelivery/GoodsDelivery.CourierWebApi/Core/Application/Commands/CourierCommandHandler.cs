@@ -12,7 +12,7 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
             this.repository = repository;
         }
 
-        public async Task<string> Handle(CreateCourierCommand cmd)
+        public async Task<IResult> Handle(CreateCourierCommand cmd)
         {
             var aggregate = new Courier
             (
@@ -25,12 +25,14 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
 
             await repository.Create(aggregate);
 
-            return aggregate.Id;
+            return Results.Created($"/couriers/{aggregate.Id}", aggregate);
         }
 
-        public async Task Handle(DeleteCourierCommand cmd)
+        public async Task<IResult> Handle(DeleteCourierCommand cmd)
         {
             await repository.Delete(x => x.Id == cmd.Id);
+
+            return Results.NoContent();
         }
 
         public async Task Handle(UpdateCourierCommand cmd)

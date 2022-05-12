@@ -17,21 +17,13 @@ builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("C
 
 var app = builder.Build();
 
-app.MapPost("/couriers", async (CreateCourierCommand cmd, CourierCommandHandler handler) =>
-{
-    var id = await handler.Handle(cmd);
-    return Results.Created($"/couriers/{id}", null);
-});
+app.MapPost("/couriers", async (CreateCourierCommand cmd, CourierCommandHandler handler) => await handler.Handle(cmd));
 
 app.MapGet("/couriers", async (CourierQueryService service) => await service.GetAllCouriers());
 
 app.MapGet("/couriers/{id}", async (string id, CourierQueryService service) => await service.GetCourierDetails(id));
 
-app.MapDelete("/couriers/{id}", async (DeleteCourierCommand cmd, CourierCommandHandler handler) =>
-{
-    await handler.Handle(cmd);
-    return Results.NoContent();
-});
+app.MapDelete("/couriers/{id}", async (DeleteCourierCommand cmd, CourierCommandHandler handler) => await handler.Handle(cmd));
 
 app.MapPut("/couriers/{id}", async (string id, UpdateCourierCommand cmd, CourierCommandHandler handler) =>
 {
