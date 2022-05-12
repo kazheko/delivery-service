@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ICourierRepository, CourierRepository>();
 builder.Services.AddScoped<CourierCommandHandler>();
 builder.Services.AddScoped<CourierQueryService>();
+
 CourierMapping.Register();
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("CourierDatabase"));
@@ -26,9 +27,8 @@ app.MapGet("/couriers", async (CourierQueryService service) => await service.Get
 
 app.MapGet("/couriers/{id}", async (string id, CourierQueryService service) => await service.GetCourierDetails(id));
 
-app.MapDelete("/couriers/{id}", async (string id, CourierCommandHandler handler) =>
+app.MapDelete("/couriers/{id}", async (DeleteCourierCommand cmd, CourierCommandHandler handler) =>
 {
-    var cmd = new DeleteCourierCommand(id);
     await handler.Handle(cmd);
     return Results.NoContent();
 });
