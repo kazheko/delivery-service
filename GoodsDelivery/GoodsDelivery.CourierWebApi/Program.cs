@@ -25,16 +25,6 @@ app.MapGet("/couriers/{id}", async (string id, CourierQueryService service) => a
 
 app.MapDelete("/couriers/{id}", async (DeleteCourierCommand cmd, CourierCommandHandler handler) => await handler.Handle(cmd));
 
-app.MapPut("/couriers/{id}", async (string id, UpdateCourierCommand cmd, CourierCommandHandler handler) =>
-{
-    if (id != cmd.Id)
-    {
-        return Results.BadRequest();
-    }
-
-    await handler.Handle(cmd);
-
-    return Results.NoContent();
-});
+app.MapPut("/couriers/{id}", async (UpdateCourierCommand cmd, CourierCommandHandler handler) => await handler.Handle(cmd));
 
 app.Run();

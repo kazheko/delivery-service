@@ -35,7 +35,7 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
             return Results.NoContent();
         }
 
-        public async Task Handle(UpdateCourierCommand cmd)
+        public async Task<IResult> Handle(UpdateCourierCommand cmd)
         {
             var aggregate = (await repository.Read(x => x.Id == cmd.Id)).SingleOrDefault();
 
@@ -55,6 +55,8 @@ namespace GoodsDelivery.CourierWebApi.Core.Application.Commands
             );
 
             await repository.Update(x => x.Id == cmd.Id, aggregate);
+
+            return Results.NoContent();
         }
     }
 }
