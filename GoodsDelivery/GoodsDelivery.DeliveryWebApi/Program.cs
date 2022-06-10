@@ -1,4 +1,3 @@
-using GoodsDelivery.DeliveryWebApi.Core.Application.CommandHandlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Handlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Queries;
 using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
@@ -9,22 +8,24 @@ using GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<DeliveryCommandHandler>();
-builder.Services.AddScoped<DeliveryQueryService>();
-builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+builder.Services.AddScoped<DeliveryQueueQueryService>();
+builder.Services.AddScoped<IDeliveryQueueRepository, DeliveryRepository>();
 builder.Services.Configure<DeliveryDatabaseSettings>(builder.Configuration.GetSection("DeliveryDatabase"));
 
 DeliveryMapping.Configure();
 
 var app = builder.Build();
 
-app.MapGet("/deliveries/{id}", (string id, DeliveryQueryService query) => query.GetDeliveryById(id));
+app.MapGet("/queues", async (DeliveryQueueQueryService queryService) => await queryService.GetAllDeliveryQueues());
 
-app.MapGet("/deliveries", (DeliveryQueryService query) => query.GetAllDeliveries());
+app.MapGet("/queues/{id}", async (string id, DeliveryQueueQueryService queryService) => await queryService.GetDeliveryQueueById(id));
 
-app.MapPost("/deliveries", async (CreateDeliveryCommand cmd, DeliveryCommandHandler handler) =>
-{
-    var id = await handler.Handle(cmd);
-    return Results.Created($"/{id}", null);
-});
+app.MapPost("/queues", async (CreateDeliveryQueueCommand cmd, DeliveryCommandHandler handler) => await handler.Handle(cmd));
+
+app.MapPost("/queues/{id}/deliveries", async (AddDeliveryCommand cmd, DeliveryCommandHandler handler) => await handler.Handle(cmd));
+
+app.MapPost("/queues/{queueid}/deliveries/{deliveryid}/start", async (StartDeliveryCommand cmd, DeliveryCommandHandler handler) => await handler.Handle(cmd));
+
+app.MapPost("/queues/{queueid}/deliveries/{deliveryid}/complete", async (CompleteDeliveryCommand cmd, DeliveryCommandHandler handler) => await handler.Handle(cmd));
 
 app.Run();

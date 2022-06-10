@@ -10,20 +10,20 @@ namespace GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Mapping
     {
         public static void Configure()
         {
-            BsonClassMap.RegisterClassMap<Delivery>(cm =>
+            BsonClassMap.RegisterClassMap<DeliveryQueue>(cm =>
             {
                 cm.AutoMap();
                 cm.MapIdMember(x => x.Id)
                     .SetIdGenerator(StringObjectIdGenerator.Instance)
                     .SetSerializer(new StringSerializer(BsonType.ObjectId));
 
-                cm.MapCreator(p => new Delivery(p.Id, p.Number, p.CourierId, p.Orders));
+                cm.MapCreator(q => new DeliveryQueue(q.Id, q.CourierId, q.Deliveries));
             });
 
-            BsonClassMap.RegisterClassMap<Order>(cm =>
+            BsonClassMap.RegisterClassMap<Delivery>(cm =>
             {
                 cm.AutoMap();
-                cm.MapCreator(p => new Order(p.OrderId, p.SeqNum, p.ClientId, p.Status));
+                cm.MapCreator(d => new Delivery(d.Id, d.OrderNumber, d.CustomerId, d.Status));
             });
         }
     }

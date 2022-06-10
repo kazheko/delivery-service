@@ -1,18 +1,44 @@
-﻿namespace GoodsDelivery.DeliveryWebApi.Core.Domain
+﻿using Dawn;
+
+namespace GoodsDelivery.DeliveryWebApi.Core.Domain
 {
     public class Delivery
     {
-        public Delivery(string id, string number, string courierId, IEnumerable<Order> orders)
+        public Delivery(int id, string orderNumber, string customerId)
         {
+            Guard.Argument(orderNumber)
+                .NotNull().NotWhiteSpace();
+
+            Guard.Argument(customerId)
+                .NotNull().NotWhiteSpace();
+
             Id = id;
-            Number = number;
-            CourierId = courierId;
-            Orders = orders;
+            OrderNumber = orderNumber;
+            CustomerId = customerId;
+            Status = DeliveryStatus.Awaiting;
         }
 
-        public string Id { get; private set; }
-        public string Number { get; private set; }
-        public string CourierId { get; private set; }
-        public IEnumerable<Order> Orders { get; private set; }
+        public Delivery(int id, string orderNumber, string customerId, DeliveryStatus status)
+        {
+            Id = id;
+            OrderNumber = orderNumber;
+            CustomerId = customerId;
+            Status = status;
+        }
+
+        public int Id { get; private set; }
+        public string OrderNumber { get; private set; }
+        public string CustomerId { get; private set; }
+        public DeliveryStatus Status { get; private set; }
+
+        public void Start()
+        {
+            Status = DeliveryStatus.InProgress;
+        }
+
+        public void Complete()
+        {
+            Status = DeliveryStatus.Сompleted;
+        }
     }
 }

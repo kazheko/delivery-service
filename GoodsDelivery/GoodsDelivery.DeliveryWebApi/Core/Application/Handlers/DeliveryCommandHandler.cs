@@ -1,28 +1,82 @@
-﻿using GoodsDelivery.DeliveryWebApi.Core.Application.CommandHandlers;
-using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
+﻿using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
 using GoodsDelivery.DeliveryWebApi.Core.Domain;
 
 namespace GoodsDelivery.DeliveryWebApi.Core.Application.Handlers
 {
     public class DeliveryCommandHandler
     {
-        IDeliveryRepository repository;
+        private readonly IDeliveryQueueRepository repository;
 
-        public DeliveryCommandHandler(IDeliveryRepository repository)
+        public DeliveryCommandHandler(IDeliveryQueueRepository repository)
         {
             this.repository = repository;
         }
 
-        public async Task<string> Handle(CreateDeliveryCommand cmd)
+        public async Task<IResult> Handle(CreateDeliveryQueueCommand cmd)
         {
-            var orders = cmd.Orders
-                .Select(x => new Order(x.OrderId, x.SeqNum, x.ClientId, OrderStatus.Shipped));
+            var aggregate = new DeliveryQueue(cmd.CourierId);
 
-            var delivery = new Delivery(default, cmd.Number, cmd.CourierId, orders);
+            await repository.Create(aggregate);
 
-            await repository.Create(delivery);
+            return Results.Created($"/queue/{aggregate.Id}", aggregate);
+        }
 
-            return delivery.Id;
+        public async Task<IResult> Handle(AddDeliveryCommand cmd)
+        {
+            var queue = (await repository.Read(x => x.Id == cmd.QueueId)).SingleOrDefault();
+
+            if (queue == null) 
+            {
+                return Results.NotFound();
+            }
+
+            var delivery = queue.AddDelivery(cmd.OrderNumber, cmd.CustomerId);
+
+            await repository.AddDelivery(cmd.QueueId, delivery);
+
+            return Results.NoContent();
+        }
+
+        public async Task<IResult> Handle(StartDeliveryCommand cmd)
+        {
+            var queue = (await repository.Read(x => x.Id == cmd.QueueId)).SingleOrDefault();
+
+            if (queue == null)
+            {
+                return Results.NotFound();
+            }
+
+            var delivery = queue.StartDelivery(cmd.DeliveryId);
+
+            if (delivery == null)
+            {
+                return Results.NotFound();
+            }
+
+            await repository.UpdateDelivery(cmd.QueueId, delivery);
+
+            return Results.NoContent();
+        }
+
+        public async Task<IResult> Handle(CompleteDeliveryCommand cmd)
+        {
+            var queue = (await repository.Read(x => x.Id == cmd.QueueId)).SingleOrDefault();
+
+            if (queue == null)
+            {
+                return Results.NotFound();
+            }
+
+            var delivery = queue.CompleteDelivery(cmd.DeliveryId);
+
+            if (delivery == null)
+            {
+                return Results.NotFound();
+            }
+
+            await repository.UpdateDelivery(cmd.QueueId, delivery);
+
+            return Results.NoContent();
         }
     }
 }

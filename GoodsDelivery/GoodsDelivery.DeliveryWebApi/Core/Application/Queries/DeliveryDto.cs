@@ -2,9 +2,9 @@
 {
     public class DeliveryDto
     {
-        public string Id { get; set; } = null!;
-        public string Number { get; set; } = null!;
-        public string CourierId { get; set; } = null!;
-        public IEnumerable<DeliveryOrderDto> Orders { get; set; } = null!;
+        public int Id { get; set; }
+        public string OrderNumber { get; set; }
+        public string CustomerId { get; set; }
+        public string Status { get; set; }
     }
 }
