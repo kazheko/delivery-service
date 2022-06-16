@@ -1,4 +1,4 @@
-﻿namespace GoodsDelivery.DeliveryTrackingWebApi.Infrastructure.Configurations
+﻿namespace GoodsDelivery.DeliveryTrackingWebApi.Configurations
 {
     public class DatabaseSettings
     {

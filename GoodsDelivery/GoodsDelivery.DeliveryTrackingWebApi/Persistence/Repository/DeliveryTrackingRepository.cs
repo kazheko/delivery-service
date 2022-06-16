@@ -1,11 +1,11 @@
-﻿using GoodsDelivery.DeliveryTrackingWebApi.Core.Contracts;
+﻿using GoodsDelivery.DeliveryTrackingWebApi.Configurations;
+using GoodsDelivery.DeliveryTrackingWebApi.Core.Contracts;
 using GoodsDelivery.DeliveryTrackingWebApi.Core.Domain;
-using GoodsDelivery.DeliveryTrackingWebApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Repository
+namespace GoodsDelivery.DeliveryTrackingWebApi.Persistence.Repository
 {
     public class DeliveryTrackingRepository : IDeliveryTrackingRepository
     {
