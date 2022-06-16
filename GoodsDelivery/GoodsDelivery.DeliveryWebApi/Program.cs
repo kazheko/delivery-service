@@ -1,9 +1,9 @@
+using GoodsDelivery.DeliveryWebApi.Configurations;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Handlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Queries;
 using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
-using GoodsDelivery.DeliveryWebApi.Infrastructure.Configurations;
-using GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Mapping;
-using GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Repository;
+using GoodsDelivery.DeliveryWebApi.Persistence.Mapping;
+using GoodsDelivery.DeliveryWebApi.Persistence.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +11,15 @@ builder.Services.AddScoped<DeliveryCommandHandler>();
 builder.Services.AddScoped<DeliveryQueueQueryService>();
 builder.Services.AddScoped<IDeliveryQueueRepository, DeliveryRepository>();
 builder.Services.Configure<DeliveryDatabaseSettings>(builder.Configuration.GetSection("DeliveryDatabase"));
+builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.Services.AddAuthorizationServices();
 
 DeliveryMapping.Configure();
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGet("/queues", async (DeliveryQueueQueryService queryService) => await queryService.GetAllDeliveryQueues());
 

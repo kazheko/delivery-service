@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Mapping
+namespace GoodsDelivery.DeliveryWebApi.Persistence.Mapping
 {
     public class DeliveryMapping
     {

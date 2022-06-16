@@ -1,4 +1,4 @@
-﻿namespace GoodsDelivery.DeliveryWebApi.Infrastructure.Configurations
+﻿namespace GoodsDelivery.DeliveryWebApi.Configurations
 {
     public class DeliveryDatabaseSettings
     {

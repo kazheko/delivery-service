@@ -1,11 +1,11 @@
-﻿using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
+﻿using GoodsDelivery.DeliveryWebApi.Configurations;
+using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
 using GoodsDelivery.DeliveryWebApi.Core.Domain;
-using GoodsDelivery.DeliveryWebApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace GoodsDelivery.DeliveryWebApi.Infrastructure.Persistence.Repository
+namespace GoodsDelivery.DeliveryWebApi.Persistence.Repository
 {
     public class DeliveryRepository : IDeliveryQueueRepository
     {
