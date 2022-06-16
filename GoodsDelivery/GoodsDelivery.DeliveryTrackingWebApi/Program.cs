@@ -2,8 +2,7 @@ using GoodsDelivery.DeliveryTrackingWebApi.Configurations;
 using GoodsDelivery.DeliveryTrackingWebApi.Core.Application.Commands;
 using GoodsDelivery.DeliveryTrackingWebApi.Core.Application.Queries;
 using GoodsDelivery.DeliveryTrackingWebApi.Core.Contracts;
-using GoodsDelivery.DeliveryTrackingWebApi.Persistence.Repository;
-using GoodsDelivery.DeliveryWebApi.Persistence.Mapping;
+using GoodsDelivery.DeliveryTrackingWebApi.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +12,7 @@ builder.Services.AddScoped<IDeliveryTrackingRepository, DeliveryTrackingReposito
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 builder.Services.AddAuthenticationServices(builder.Configuration);
 builder.Services.AddAuthorizationServices();
-
-DeliveryTrackingMapping.Configure();
+builder.Services.RegisterMongoDbMappings();
 
 var app = builder.Build();
 
