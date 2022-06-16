@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace GoodsDelivery.DeliveryWebApi.Persistence.Repository
+namespace GoodsDelivery.DeliveryWebApi.Persistence
 {
     public class DeliveryRepository : IDeliveryQueueRepository
     {

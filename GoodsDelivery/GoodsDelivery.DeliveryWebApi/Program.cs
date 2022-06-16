@@ -2,8 +2,7 @@ using GoodsDelivery.DeliveryWebApi.Configurations;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Handlers;
 using GoodsDelivery.DeliveryWebApi.Core.Application.Queries;
 using GoodsDelivery.DeliveryWebApi.Core.Contracts.Repositories;
-using GoodsDelivery.DeliveryWebApi.Persistence.Mapping;
-using GoodsDelivery.DeliveryWebApi.Persistence.Repository;
+using GoodsDelivery.DeliveryWebApi.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +12,7 @@ builder.Services.AddScoped<IDeliveryQueueRepository, DeliveryRepository>();
 builder.Services.Configure<DeliveryDatabaseSettings>(builder.Configuration.GetSection("DeliveryDatabase"));
 builder.Services.AddAuthenticationServices(builder.Configuration);
 builder.Services.AddAuthorizationServices();
-
-DeliveryMapping.Configure();
+builder.Services.RegisterMongoDbMappings();
 
 var app = builder.Build();
 
