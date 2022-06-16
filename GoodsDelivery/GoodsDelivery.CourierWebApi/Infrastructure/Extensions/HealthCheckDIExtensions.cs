@@ -5,7 +5,7 @@ namespace GoodsDelivery.CourierWebApi.Infrastructure.Extensions
 {
     public static class HealthCheckDIExtensions
     {
-        public static IServiceCollection AddReadinessHealthCheck(this IServiceCollection service, 
+        public static IServiceCollection AddReadinessHealthChecks(this IServiceCollection service, 
             IConfigurationSection dbSection, params string[] tags)
         {
             if(dbSection == null)
