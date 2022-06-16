@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<DeliveryCommandHandler>();
 builder.Services.AddScoped<DeliveryQueueQueryService>();
 builder.Services.AddScoped<IDeliveryQueueRepository, DeliveryRepository>();
-builder.Services.Configure<DeliveryDatabaseSettings>(builder.Configuration.GetSection("DeliveryDatabase"));
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 builder.Services.AddAuthenticationServices(builder.Configuration);
 builder.Services.AddAuthorizationServices();
 builder.Services.RegisterMongoDbMappings();

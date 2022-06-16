@@ -11,7 +11,7 @@ namespace GoodsDelivery.DeliveryWebApi.Persistence
     {
         private readonly IMongoCollection<DeliveryQueue> _deliveryCollection;
 
-        public DeliveryRepository(IOptions<DeliveryDatabaseSettings> settings)
+        public DeliveryRepository(IOptions<DatabaseSettings> settings)
         {
             var mongoClient = new MongoClient(settings.Value.ConnectionString);
 

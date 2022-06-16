@@ -1,6 +1,6 @@
 ﻿namespace GoodsDelivery.DeliveryWebApi.Configurations
 {
-    public class DeliveryDatabaseSettings
+    public class DatabaseSettings
     {
         public string ConnectionString { get; set; } = null!;
 
